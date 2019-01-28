@@ -29,8 +29,11 @@ RUN set -eux; \
     pecl install mcrypt-1.0.2; \
     docker-php-ext-enable mcrypt; \
     rm -rf /var/lib/apt/lists/*; \
+    # PHP Config
+    cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini; \
     a2enmod rewrite; \
-    cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini;
+    sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/*.conf; \
+    ;
 
 RUN set -eux; \
     curl -s 'https://dl.laravel-china.org/composer.phar' -o /usr/local/bin/composer; \
