@@ -33,8 +33,3 @@ RUN set -eux; \
     cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini; \
     a2enmod rewrite; \
     sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/*.conf;
-
-RUN set -eux; \
-    curl -s 'https://dl.laravel-china.org/composer.phar' -o /usr/local/bin/composer; \
-    chmod +x /usr/local/bin/composer; \
-    composer config -g repo.packagist composer https://packagist.laravel-china.org;
