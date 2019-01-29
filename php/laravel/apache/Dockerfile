@@ -1,4 +1,4 @@
-FROM php:fpm
+FROM php:apache
 
 RUN set -eux; \
     apt-get update; \
@@ -30,4 +30,7 @@ RUN set -eux; \
     docker-php-ext-enable mcrypt; \
     rm -rf /var/lib/apt/lists/*; \
     # PHP Config
-    cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini;
+    cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini; \
+    a2enmod rewrite; \
+    sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/*.conf;
+
