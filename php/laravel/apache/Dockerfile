@@ -1,4 +1,6 @@
-FROM php:apache
+FROM php:apache-stretch
+
+COPY docker/start.sh /usr/local/bin/start
 
 RUN set -eux; \
     apt-get update; \
@@ -31,6 +33,8 @@ RUN set -eux; \
     rm -rf /var/lib/apt/lists/*; \
     # PHP Config
     cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini; \
-    a2enmod rewrite; \
-    sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/*.conf;
+    sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/*.conf; \
+    chmod u+x /usr/local/bin/start; \
+    a2enmod rewrite;
 
+CMD ["/usr/local/bin/start"]
